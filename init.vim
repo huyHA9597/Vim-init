@@ -140,7 +140,7 @@ let g:floaterm_keymap_prev = '<C-p>'
 let g:floaterm_title = 'terminal($1/$2)'
 " let g:floaterm_width = 0.87
 if winwidth(0) == 238 | let g:floaterm_width = 0.87 | else | let g:floaterm_width = 0.83 | endif
-let g:floaterm_height = 0.3
+if winheight(0) == 58 | let g:floaterm_height = 0.5 | else | let g:floaterm_height = 0.4 | endif
 let g:floaterm_position = 'bottomright'
 
 " OmniSharp configuration settings
