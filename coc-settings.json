@@ -40,10 +40,5 @@
   },
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
-  "rust-analyzer.server.path": "/opt/homebrew/Cellar/rust-analyzer/2022-06-20/bin/rust-analyzer",
-  "rust-analyzer.debug.vimspector.configuration.name": "rust - lldb",
-  "python.pythonPath":"python3",
-  "floaterm.completion.enable": true,
-  "floaterm.completion.shortcut": "floaterm",
   "npm.binPath": "~/.nvm/versions/node/v12.14.1/bin/npm"
 }

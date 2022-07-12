@@ -11,9 +11,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " File Explorer
     Plug 'scrooloose/NERDTree'
 
-    " Auto pairs for '(' '[' '{'
-    Plug 'jiangmiao/auto-pairs'
-
     " Terminal in neovim
     Plug 'voldikss/vim-floaterm'
 
@@ -29,19 +26,12 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " SASS SCSS
     Plug 'cakebaker/scss-syntax.vim'
 
-    " JS TS
-    Plug 'pangloss/vim-javascript'
-    Plug 'leafgarland/typescript-vim'
-
     " Front-end framework
     Plug 'MaxMEllon/vim-jsx-pretty'
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'mlaursen/vim-react-snippets'
     Plug 'jparise/vim-graphql'
     Plug 'ap/vim-css-color'
-
-    " Rust syntax
-    Plug 'rust-lang/rust.vim'
 
     " Plug indent line
     Plug 'lukas-reineke/indent-blankline.nvim'
@@ -77,6 +67,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Nvim-pqf
     Plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git'
+
+    " Fold plugin
+    Plug 'tmhedberg/SimpylFold'
 
     " Colorscheme
     Plug 'EvitanRelta/vim-colorschemes'

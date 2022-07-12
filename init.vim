@@ -1,7 +1,5 @@
 source $HOME/.config/nvim/vim-plug/plugins.vim
 
-let &t_Co=256
-
 " Settings: {{{
 filetype indent plugin on
 if !exists('g:syntax_on') | syntax enable | endif
@@ -12,15 +10,21 @@ set completeopt=menuone,noinsert,noselect,preview
 
 set backspace=indent,eol,start
 set expandtab
+set autoindent
 set shiftround
 set softtabstop=-1
 set textwidth=80
 set title
 set showcmd
+set fileformat=unix
 
 " Specific tab widths
 set tabstop=4 
 set shiftwidth=4
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -233,9 +237,6 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
-" Sass scss auto compile
-autocmd bufwritepost [^_]*.sass,[^_]*.scss  silent exec "!sass %:p %:r.css"
-
 " Set color theme
 " set background=dark
 " Important!!
@@ -266,3 +267,6 @@ function! CheckUpdate(timer)
     silent! checktime
     call timer_start(1000,'CheckUpdate')
 endfunction
+
+" SimpylFold config
+let g:SimpylFold_docstring_preview=1
