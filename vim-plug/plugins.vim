@@ -76,6 +76,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'sainnhe/edge'
     Plug 'joshdick/onedark.vim'
 
+    " Treesitter
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
+
     " Statusline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'

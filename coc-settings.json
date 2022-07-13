@@ -40,5 +40,8 @@
   },
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
-  "npm.binPath": "~/.nvm/versions/node/v12.14.1/bin/npm"
-}
+  "diagnostic.checkCurrentLine": true,
+  "npm.binPath": "~/.nvm/versions/node/v12.14.1/bin/npm",
+  "tsserver.disableAutomaticTypeAcquisition": false,
+  "tsserver.log": "normal"
+  }

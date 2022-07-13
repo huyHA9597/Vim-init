@@ -160,14 +160,16 @@ let g:coc_node_path='/Users/huyhaan/.nvm/versions/node/v12.14.1/bin/node'
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gp <Plug>(coc-diagnostic-prev)
+nmap <silent> gn <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <C-a> <Plug>(coc-codeaction-selected)<CR>
+vmap <silent> <C-a> as <Plug>(coc-codeaction-selected)<CR>
 
 nmap <silent> <Leader>ca <Plug>(coc-codelens-action)
 autocmd FileType cs nmap <silent> <Leader>coc :CocRestart<CR>
@@ -201,7 +203,7 @@ let g:coc_snippet_next = '<Tab>'
 
 " Ale config
 let g:ale_linters_ignore = {
-      \   'typescript': ['tslint'],
+      \   'ts': ['tslint'],
       \}
 
 let g:ale_fixers = {
@@ -212,9 +214,8 @@ let g:ale_fixers = {
 
 let g:ale_linters = {
 \ 'cs': ['OmniSharp'],
-\ 'html': ['htmlhint'],
-\ 'css': ['stylelint'],
 \ 'rust': ['rustc', 'rls'],
+\ 'py': ['prospector']
 \}
 
 " Set this in your vimrc file to disabling highlighting
@@ -225,6 +226,7 @@ let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_python_pylint_options = '--load-plugins pylint_django'
 
 " NERD Commenter setting
 " Create default mappings
