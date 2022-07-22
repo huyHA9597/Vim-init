@@ -2,7 +2,7 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 
 " Settings: {{{
 filetype indent plugin on
-if !exists('g:syntax_on') | syntax enable | endif
+syntax enable
 set encoding=utf-8
 scriptencoding utf-8
 
@@ -13,7 +13,7 @@ set expandtab
 set autoindent
 set shiftround
 set softtabstop=-1
-set textwidth=80
+set textwidth=125
 set title
 set showcmd
 set fileformat=unix
@@ -21,10 +21,6 @@ set fileformat=unix
 " Specific tab widths
 set tabstop=4 
 set shiftwidth=4
-au BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -132,6 +128,7 @@ autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<C
 autocmd FileType cs nnoremap <silent> <buffer> <Leader>pi :OmniSharpPreviewImplementations<CR>
 autocmd FileType cs nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
 autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+autocmd FileType cs nnoremap <silent> <C-a> :OmniSharpDocumentation<CR>
 
 " Setup OmniSharp test debug with VimSpector
 autocmd FileType cs nmap <silent><C-ra> :OmniSharpRunTestsInFile<CR>
@@ -170,6 +167,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <C-a> <Plug>(coc-codeaction-selected)<CR>
 vmap <silent> <C-a> as <Plug>(coc-codeaction-selected)<CR>
+nmap <silent> <Leader>pd :call CocActionAsync('doHover')<CR>
 
 nmap <silent> <Leader>ca <Plug>(coc-codelens-action)
 autocmd FileType cs nmap <silent> <Leader>coc :CocRestart<CR>
@@ -199,6 +197,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Use <cr> to confirm completion, `<C-g>u` means break
+" undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 let g:coc_snippet_next = '<Tab>'
 
 " Ale config
@@ -209,16 +212,17 @@ let g:ale_linters_ignore = {
 let g:ale_fixers = {
 \ 'html': ['prettier'],
 \ 'css': ['stylelint'],
-\ 'rust': ['rustc', 'rls'],
+\ 'rs': ['rustfmt' ,'trim_whitespace', 'remove_trailing_lines'],
 \}
 
 let g:ale_linters = {
 \ 'cs': ['OmniSharp'],
-\ 'rust': ['rustc', 'rls'],
-\ 'py': ['prospector']
+\ 'rs': ['analyzer'],
+\ 'py': ['pyright', 'pylint']
 \}
 
 " Set this in your vimrc file to disabling highlighting
+hi link ALEErrorLine spellbad
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 0
 let g:airline#extensions#ale#enabled = 1
@@ -257,7 +261,6 @@ let g:edge_diagnostic_virtual_text = 'colored'
 colorscheme edge
 " colorscheme onedark
 let g:airline_theme = 'edge'
-" let g:airline_theme = 'onedark'
 let g:airline#extensions#tmuxline#enabled = 0
 
 " Auto-refresh file
@@ -272,3 +275,15 @@ endfunction
 
 " SimpylFold config
 let g:SimpylFold_docstring_preview=1
+
+" Vim-test
+let test#strategy = "floaterm"
+
+" Setup todo-comment
+lua << EOF
+  require("todo-comments").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF

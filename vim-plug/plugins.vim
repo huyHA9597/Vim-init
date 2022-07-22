@@ -47,7 +47,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Debug and test
     Plug 'puremourning/vimspector'
-    Plug 'sagi-z/vimspectorpy', { 'do': { -> vimspectorpy#update() } }
+    Plug 'vim-test/vim-test'
 
     " Linting/error highlighting
     Plug 'dense-analysis/ale'
@@ -67,17 +67,18 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Nvim-pqf
     Plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git'
+    
+    " TODO Comment
+    Plug 'folke/todo-comments.nvim'
 
-    " Fold plugin
-    Plug 'tmhedberg/SimpylFold'
+    " For Lua plugin 
+    Plug 'nvim-lua/plenary.nvim'
 
     " Colorscheme
-    Plug 'EvitanRelta/vim-colorschemes'
     Plug 'sainnhe/edge'
-    Plug 'joshdick/onedark.vim'
 
-    " Treesitter
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
+    " Syntax highlighting
+    Plug 'sheerun/vim-polyglot'
 
     " Statusline
     Plug 'vim-airline/vim-airline'
