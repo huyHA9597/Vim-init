@@ -63,7 +63,6 @@ let g:webdevicons_enable_airline_statusline = 1
 let g:NERDTreeWinSize=30
 :map <C-b> :NERDTreeToggle<CR>
 
-let g:ale_disable_lsp = 1
 let g:OmniSharp_want_snippet=1
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_server_use_mono = 0
@@ -169,7 +168,7 @@ nmap <silent> <C-a> <Plug>(coc-codeaction-selected)<CR>
 vmap <silent> <C-a> as <Plug>(coc-codeaction-selected)<CR>
 nmap <silent> <Leader>pd :call CocActionAsync('doHover')<CR>
 
-nmap <silent> <Leader>ca <Plug>(coc-codelens-action)
+nmap <silent> <Space>g <Plug>(coc-codelens-action)
 autocmd FileType cs nmap <silent> <Leader>coc :CocRestart<CR>
 autocmd FileType ts nmap <silent> gd :call CocActionAsync('jumpDefinition')<CR>
 autocmd FileType html nmap <silent> gd :call CocActionAsync('jumpDefinition')<CR>
@@ -185,44 +184,46 @@ function! s:show_documentation()
   endif
 endfunction
 
-inoremap <silent><expr> <TAB>
-	  \ pumvisible() ? coc#_select_confirm() :
-	  \ coc#expandableOrJumpable() ?
-	  \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-	  \ <SID>check_back_space() ? "\<TAB>" :
-	  \ coc#refresh()
-
+" use <Tab> key to trigger completion and navigate to the next complete item;
+" can use also <Ctrl-N> to go to next element
+"              <Shift-Tab> <Ctrl-P> to go to previous element
 function! s:check_back_space() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break
 " undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-let g:coc_snippet_next = '<Tab>'
-
 " Ale config
+let g:ale_disable_lsp = 1
 let g:ale_linters_ignore = {
       \   'ts': ['tslint'],
+      \   'python': ['mypy']
       \}
 
 let g:ale_fixers = {
 \ 'html': ['prettier'],
 \ 'css': ['stylelint'],
-\ 'rs': ['rustfmt' ,'trim_whitespace', 'remove_trailing_lines'],
+\ 'javascript': ['prettier', 'eslint'],
+\ 'typescript': ['prettier', 'tslint']
 \}
 
 let g:ale_linters = {
 \ 'cs': ['OmniSharp'],
-\ 'rs': ['analyzer'],
-\ 'py': ['pyright', 'pylint']
+\ 'py': ['pyright', 'pylint'],
+\ 'javascript': ['eslint']
 \}
 
 " Set this in your vimrc file to disabling highlighting
 hi link ALEErrorLine spellbad
+let g:ale_fix_on_save = 0
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 0
 let g:airline#extensions#ale#enabled = 1
@@ -230,7 +231,6 @@ let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_python_pylint_options = '--load-plugins pylint_django'
 
 " NERD Commenter setting
 " Create default mappings

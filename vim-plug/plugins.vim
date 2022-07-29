@@ -10,6 +10,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " File Explorer
     Plug 'scrooloose/NERDTree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
 
     " Terminal in neovim
     Plug 'voldikss/vim-floaterm'
@@ -27,11 +28,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'cakebaker/scss-syntax.vim'
 
     " Front-end framework
-    Plug 'MaxMEllon/vim-jsx-pretty'
-    Plug 'peitalin/vim-jsx-typescript'
-    Plug 'mlaursen/vim-react-snippets'
-    Plug 'jparise/vim-graphql'
-    Plug 'ap/vim-css-color'
+    Plug 'mxw/vim-jsx'
+    Plug 'pangloss/vim-javascript'
+    Plug 'ianks/vim-tsx'
+    Plug 'leafgarland/typescript-vim'
 
     " Plug indent line
     Plug 'lukas-reineke/indent-blankline.nvim'
@@ -64,6 +64,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Git
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
+    Plug 'tpope/vim-rhubarb'
 
     " Nvim-pqf
     Plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git'
