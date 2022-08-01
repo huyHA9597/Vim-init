@@ -5,6 +5,7 @@ filetype indent plugin on
 syntax enable
 set encoding=utf-8
 scriptencoding utf-8
+set termguicolors
 
 set completeopt=menuone,noinsert,noselect,preview
 
@@ -21,6 +22,14 @@ set fileformat=unix
 " Specific tab widths
 set tabstop=4 
 set shiftwidth=4
+autocmd FileType js set tabstop=2 shiftwidth=2
+autocmd FileType ts set tabstop=2 shiftwidth=2
+autocmd FileType jsx set tabstop=2 shiftwidth=2
+autocmd FileType tsx set tabstop=2 shiftwidth=2
+
+" Enable syntax when enter a JS or TS buffer
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -71,7 +80,7 @@ let g:OmniSharp_server_use_net6 = 1
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/plugged/ultisnips']
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsRemoveSelectModeMappings = 0
-let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsExpandTrigger = '<Nop>'
 let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsListSnippets="<C-Tab>"
@@ -184,45 +193,54 @@ function! s:show_documentation()
   endif
 endfunction
 
-" use <Tab> key to trigger completion and navigate to the next complete item;
-" can use also <Ctrl-N> to go to next element
-"              <Shift-Tab> <Ctrl-P> to go to previous element
+" Press Tab and Shift+Tab and navigate around completion selections
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') -1
+  return !col || getline('.')[col - 1] =~ '\s'
 endfunction
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break
-" undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <Tab>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<Tab>" :
+  \ coc#refresh()
+inoremap <silent><expr> <S-Tab>
+  \ pumvisible() ? "\<C-p>" :
+  \ <SID>check_back_space() ? "\<S-Tab>" :
+  \ coc#refresh()
+
+" Press Enter to confirm selection of selected complete item or notify coc to format on enter
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm()
+			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
+let g:coc_snippet_prev = '<S-Tab>'            " Use Shift+Tab to jump to previous snippet placeholder
 
 " Ale config
 let g:ale_disable_lsp = 1
 let g:ale_linters_ignore = {
       \   'ts': ['tslint'],
-      \   'python': ['mypy']
+      \   'python': ['mypy'],
+      \   'javascript': ['prettier', 'eslint'],
+      \   'typescript': ['prettier', 'tslint']
       \}
 
 let g:ale_fixers = {
 \ 'html': ['prettier'],
-\ 'css': ['stylelint'],
+\ 'css': ['prettier'],
 \ 'javascript': ['prettier', 'eslint'],
-\ 'typescript': ['prettier', 'tslint']
+\ 'typescript': ['prettier', 'eslint'],
+\ 'javascriptreact': ['prettier', 'eslint'],
+\ 'typescriptreact': ['prettier', 'eslint'],
 \}
 
 let g:ale_linters = {
 \ 'cs': ['OmniSharp'],
-\ 'py': ['pyright', 'pylint'],
-\ 'javascript': ['eslint']
+\ 'py': ['pyright', 'pylint']
 \}
 
 " Set this in your vimrc file to disabling highlighting
 hi link ALEErrorLine spellbad
+let g:ale_linters_explicit = 1
 let g:ale_fix_on_save = 0
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 0
@@ -243,13 +261,6 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
-" Set color theme
-" set background=dark
-" Important!!
-if has('termguicolors')
-  set termguicolors
-endif
-
 " The configuration options should be placed before `colorscheme edge`.
 let g:edge_style = 'default'
 let g:edge_better_performance = 1
@@ -259,7 +270,7 @@ let g:edge_diagnostic_text_highlight = 1
 let g:edge_diagnostic_virtual_text = 'colored'
 
 colorscheme edge
-" colorscheme onedark
+" colorscheme nightfox
 let g:airline_theme = 'edge'
 let g:airline#extensions#tmuxline#enabled = 0
 
@@ -273,9 +284,6 @@ function! CheckUpdate(timer)
     call timer_start(1000,'CheckUpdate')
 endfunction
 
-" SimpylFold config
-let g:SimpylFold_docstring_preview=1
-
 " Vim-test
 let test#strategy = "floaterm"
 
@@ -287,3 +295,9 @@ lua << EOF
     -- refer to the configuration section below
   }
 EOF
+
+" Rustfmt autoformat on save a buffer
+let g:rustfmt_autosave = 1
+
+" Vim-jsx-pretty
+let g:vim_jsx_pretty_colorful_config = 1

@@ -19,6 +19,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'OmniSharp/omnisharp-vim', {'for':['cs','csx','cshtml.html','csproj','solution'], 'on': ['OmniSharpInstall']}
     Plug 'nickspoons/vim-sharpenup'
 
+    " Nvim treesitter
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
     " HTML Snippet
     Plug 'adriaanzon/vim-emmet-ultisnips'
     Plug 'valloric/MatchTagAlways'
@@ -27,11 +30,19 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " SASS SCSS
     Plug 'cakebaker/scss-syntax.vim'
 
+    " Rust syntax
+    Plug 'rust-lang/rust.vim'
+    Plug 'arzg/vim-rust-syntax-ext'
+
+    " Python syntax highlighting
+    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
+
     " Front-end framework
-    Plug 'mxw/vim-jsx'
-    Plug 'pangloss/vim-javascript'
-    Plug 'ianks/vim-tsx'
-    Plug 'leafgarland/typescript-vim'
+    Plug 'yuezk/vim-js'
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'maxmellon/vim-jsx-pretty'
+    Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+    Plug 'jparise/vim-graphql'
 
     " Plug indent line
     Plug 'lukas-reineke/indent-blankline.nvim'
@@ -77,9 +88,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Colorscheme
     Plug 'sainnhe/edge'
+    Plug 'EdenEast/nightfox.nvim'
 
     " Syntax highlighting
-    Plug 'sheerun/vim-polyglot'
+    " Plug 'sheerun/vim-polyglot'
 
     " Statusline
     Plug 'vim-airline/vim-airline'
