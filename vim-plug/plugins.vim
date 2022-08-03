@@ -21,28 +21,16 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Nvim treesitter
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'windwp/nvim-ts-autotag'
 
     " HTML Snippet
     Plug 'adriaanzon/vim-emmet-ultisnips'
     Plug 'valloric/MatchTagAlways'
     Plug 'jiangmiao/auto-pairs'
 
-    " SASS SCSS
-    Plug 'cakebaker/scss-syntax.vim'
-
     " Rust syntax
     Plug 'rust-lang/rust.vim'
-    Plug 'arzg/vim-rust-syntax-ext'
-
-    " Python syntax highlighting
-    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
-
-    " Front-end framework
-    Plug 'yuezk/vim-js'
-    Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'maxmellon/vim-jsx-pretty'
-    Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-    Plug 'jparise/vim-graphql'
+    " Plug 'arzg/vim-rust-syntax-ext'
 
     " Plug indent line
     Plug 'lukas-reineke/indent-blankline.nvim'
@@ -76,6 +64,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
     Plug 'tpope/vim-rhubarb'
+    Plug 'lewis6991/gitsigns.nvim'
 
     " Nvim-pqf
     Plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git'
@@ -88,14 +77,15 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Colorscheme
     Plug 'sainnhe/edge'
-    Plug 'EdenEast/nightfox.nvim'
-
-    " Syntax highlighting
-    " Plug 'sheerun/vim-polyglot'
+    Plug 'tomasiser/vim-code-dark'
+    Plug 'joshdick/onedark.vim'
 
     " Statusline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+
+    " Smooth movement cursor
+    Plug 'psliwka/vim-smoothie'
 
     " DevIcons - always load at the end
     Plug 'ryanoasis/vim-devicons'

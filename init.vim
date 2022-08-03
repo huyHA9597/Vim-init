@@ -5,6 +5,7 @@ filetype indent plugin on
 syntax enable
 set encoding=utf-8
 scriptencoding utf-8
+set background=dark
 set termguicolors
 
 set completeopt=menuone,noinsert,noselect,preview
@@ -72,7 +73,7 @@ let g:webdevicons_enable_airline_statusline = 1
 let g:NERDTreeWinSize=30
 :map <C-b> :NERDTreeToggle<CR>
 
-let g:OmniSharp_want_snippet=1
+let g:OmniSharp_want_snippet = 1
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_server_use_mono = 0
 let g:OmniSharp_server_use_net6 = 1
@@ -109,6 +110,7 @@ let g:floaterm_height = 0.35
 let g:floaterm_position = 'bottomright'
 
 " OmniSharp configuration settings
+let g:OmniSharp_highlighting = 0
 let g:OmniSharp_timeout = 5
 let g:OmniSharp_highlight_types = 1
 let g:OmniSharp_selector_ui = 'fzf'
@@ -196,24 +198,21 @@ endfunction
 " Press Tab and Shift+Tab and navigate around completion selections
 function! s:check_back_space() abort
   let col = col('.') -1
-  return !col || getline('.')[col - 1] =~ '\s'
+  return !col || getline('.')[col - 1] =~# '\s'
 endfunction
 
-inoremap <silent><expr> <Tab>
-  \ pumvisible() ? "\<C-n>" :
+inoremap <silent><expr> <TAB>
+  \ coc#pum#visible() ? coc#pum#next(1):
+  \ coc#expandableOrJumpable() ?
+  \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
   \ <SID>check_back_space() ? "\<Tab>" :
   \ coc#refresh()
-inoremap <silent><expr> <S-Tab>
-  \ pumvisible() ? "\<C-p>" :
-  \ <SID>check_back_space() ? "\<S-Tab>" :
-  \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Press Enter to confirm selection of selected complete item or notify coc to format on enter
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm()
-			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
 
 let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
-let g:coc_snippet_prev = '<S-Tab>'            " Use Shift+Tab to jump to previous snippet placeholder
 
 " Ale config
 let g:ale_disable_lsp = 1
@@ -244,8 +243,11 @@ let g:ale_linters_explicit = 1
 let g:ale_fix_on_save = 0
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 0
+let g:ale_virtualtext_cursor = 1
+let g:ale_warn_about_trailing_whitespace = 0
 let g:airline#extensions#ale#enabled = 1
-let g:ale_sign_column_always = 1
+let g:ale_sign_column_always = 0
+let b:ale_exclude_highlights = ['Fix formatting']
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -270,9 +272,13 @@ let g:edge_diagnostic_text_highlight = 1
 let g:edge_diagnostic_virtual_text = 'colored'
 
 colorscheme edge
-" colorscheme nightfox
-let g:airline_theme = 'edge'
+" colorscheme codedark
+" colorscheme onedark
+
+" let g:airline_theme = 'edge'
+let g:airline_theme = 'onedark'
 let g:airline#extensions#tmuxline#enabled = 0
+let g:airline_powerline_fonts=1
 
 " Auto-refresh file
 if ! exists("g:CheckUpdateStarted")
@@ -299,5 +305,25 @@ EOF
 " Rustfmt autoformat on save a buffer
 let g:rustfmt_autosave = 1
 
-" Vim-jsx-pretty
-let g:vim_jsx_pretty_colorful_config = 1
+" Setup nvim-treesitter
+lua << EOF
+require("nvim-treesitter.configs").setup {
+  ensure_installed = { "javascript", "css", "graphql", "html", "json", "python", "typescript", "scss", "rust" , "c_sharp", "http" },
+  sync_install = false,
+  highlight = {
+    enable = true, -- false will disable the whole extension
+    disable = {}, -- list of language that will be disabled
+    additional_vim_regex_highlighting = true,
+
+  },
+  indent = { enable = true, disable = { "yaml"} },
+  rainbow = {
+    enable = true,
+    disable = {},
+    extended_mode = true,
+    max_file_lines = nil,
+  }
+}
+require('nvim-ts-autotag').setup()
+require('gitsigns').setup()
+EOF
