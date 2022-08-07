@@ -86,17 +86,32 @@ let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsListSnippets="<C-Tab>"
 
-" This directory should exist.
-" Always enable preview window on the right with 70% width
-let g:fzf_preview_window = 'right:70%'
+" Fzf config 
+let g:fzf_preview_use_dev_icons = 1
+let g:fzf_preview_floating_window_rate = 0.8
 
-" Fzf key shortcuts
-:map <C-g> :GFiles<CR>
-:map <C-f> :Files<CR>
-:map <silent> <Leader>fg :Rg<CR>
+" Fzf keymap
+nmap <Leader>f [fzf-p]
+nnoremap <silent> [fzf-p]f     :<C-u>FzfPreviewProjectFilesRpc<CR>
+nnoremap <silent> [fzf-p]g     :<C-u>FzfPreviewGitFilesRpc<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActionsRpc<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
+nnoremap <silent> [fzf-p]rg    :<C-u>FzfPreviewProjectGrepRecallRpc<CR>
 
 " Floaterm Config keymap
-let g:floaterm_keymap_new = '<C-S-t>'
+function! FloatTermNewFollowScreen()
+  if exists("g:NERDTree") && g:NERDTree.IsOpen() && winwidth(0) == 238
+    FloatermNew --width=207
+  elseif exists("g:NERDTree") && g:NERDTree.IsOpen() && winwidth(0) == 178
+    FloatermNew --width=147
+  else
+    FloatermNew --width=winwidth(0)
+  endif
+endfunction
+
+" let g:floaterm_keymap_new = '<C-S-t>'
+nnoremap <C-S-t> :call FloatTermNewFollowScreen()<CR>
 let g:floaterm_keymap_toggle = '<C-t>'
 let g:floaterm_keymap_kill = '<C-k>'
 let g:floaterm_keymap_next = '<C-n>'
@@ -104,7 +119,6 @@ let g:floaterm_keymap_prev = '<C-p>'
 
 " Floaterm position
 let g:floaterm_title = 'terminal($1/$2)'
-" let g:floaterm_width = 0.87
 if winwidth(0) == 238 | let g:floaterm_width = 0.87 | else | let g:floaterm_width = 0.83 | endif
 let g:floaterm_height = 0.35
 let g:floaterm_position = 'bottomright'
@@ -210,7 +224,7 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Press Enter to confirm selection of selected complete item or notify coc to format on enter
-inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
 
@@ -270,13 +284,14 @@ let g:edge_dim_foreground = 1
 let g:edge_enable_italic = 1
 let g:edge_diagnostic_text_highlight = 1
 let g:edge_diagnostic_virtual_text = 'colored'
+let g:edge_transparent_background = 1
 
 colorscheme edge
 " colorscheme codedark
 " colorscheme onedark
 
-" let g:airline_theme = 'edge'
-let g:airline_theme = 'onedark'
+let g:airline_theme = 'edge'
+" let g:airline_theme = 'onedark'
 let g:airline#extensions#tmuxline#enabled = 0
 let g:airline_powerline_fonts=1
 

@@ -9,15 +9,18 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
     " File Explorer
-    Plug 'scrooloose/NERDTree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'scrooloose/NERDTree', { 'on':  'NERDTreeToggle' }
+    Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
     " Terminal in neovim
     Plug 'voldikss/vim-floaterm'
 
+    " Buffer/window deletion
+    Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+
     " OmniSharp syntax
     Plug 'OmniSharp/omnisharp-vim', {'for':['cs','csx','cshtml.html','csproj','solution'], 'on': ['OmniSharpInstall']}
-    Plug 'nickspoons/vim-sharpenup'
+    Plug 'nickspoons/vim-sharpenup', {'for':['cs','csx','cshtml.html','csproj','solution'], 'on': ['OmniSharpInstall']}
 
     " Nvim treesitter
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -29,8 +32,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'jiangmiao/auto-pairs'
 
     " Rust syntax
-    Plug 'rust-lang/rust.vim'
-    " Plug 'arzg/vim-rust-syntax-ext'
+    Plug 'rust-lang/rust.vim', {'for': ['rust', 'toml', 'rs']}
 
     " Plug indent line
     Plug 'lukas-reineke/indent-blankline.nvim'
@@ -39,10 +41,11 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'preservim/nerdcommenter'
 
     " Bracey - live server
-    Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
+    Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'for': ['html', 'css', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact']}
 
     " Auto completion
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'yaegassy/coc-graphql', {'do': 'yarn install --frozen-lockfile'}
 
     " Debug and test
     Plug 'puremourning/vimspector'
@@ -57,8 +60,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Fuzzy Search + Ripgrep for search files
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    Plug 'kyoh86/vim-ripgrep'
+    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 
     " Git
     Plug 'tpope/vim-fugitive'
