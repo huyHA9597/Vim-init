@@ -27,6 +27,10 @@ autocmd FileType js set tabstop=2 shiftwidth=2
 autocmd FileType ts set tabstop=2 shiftwidth=2
 autocmd FileType jsx set tabstop=2 shiftwidth=2
 autocmd FileType tsx set tabstop=2 shiftwidth=2
+autocmd FileType html set tabstop=2 shiftwidth=2
+autocmd FileType css set tabstop=2 shiftwidth=2
+autocmd FileType scss set tabstop=2 shiftwidth=2
+autocmd FileType sass set tabstop=2 shiftwidth=2
 
 " Enable syntax when enter a JS or TS buffer
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
@@ -87,17 +91,24 @@ let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsListSnippets="<C-Tab>"
 
 " Fzf config 
-let g:fzf_preview_use_dev_icons = 1
-let g:fzf_preview_floating_window_rate = 0.8
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4"
+let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden -g "!{.git,node_modules,vendor}/*"' 
+command! -bang -nargs=? -complete=dir Files
+     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " Fzf keymap
-nmap <Leader>f [fzf-p]
-nnoremap <silent> [fzf-p]f     :<C-u>FzfPreviewProjectFilesRpc<CR>
-nnoremap <silent> [fzf-p]g     :<C-u>FzfPreviewGitFilesRpc<CR>
-nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
-nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActionsRpc<CR>
-nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
-nnoremap <silent> [fzf-p]rg    :<C-u>FzfPreviewProjectGrepRecallRpc<CR>
+nnoremap <silent> <C-f>         :Files<CR>
+nnoremap <silent> <C-g>         :GFiles<CR>
+nnoremap <Leader>gs             :GFiles?<CR>
+nnoremap <Leader>b              :Buffers<CR>
+nnoremap <silent> <Leader>rg    :Rg<CR>
+
+" Replace
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+" This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
 
 " Floaterm Config keymap
 function! FloatTermNewFollowScreen()
@@ -177,7 +188,7 @@ nmap <Leader>si <Plug>VimspectorStepInto
 nmap <Leader>so <Plug>VimspectorStepOver
 
 " Coc config
-let g:coc_node_path='/Users/huyhaan/.nvm/versions/node/v12.14.1/bin/node'
+let g:coc_node_path='/Users/huyhaan/.nvm/versions/node/v16.16.0/bin/node'
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -190,7 +201,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <C-a> <Plug>(coc-codeaction-selected)<CR>
-vmap <silent> <C-a> as <Plug>(coc-codeaction-selected)<CR>
+vmap <silent> <C-a> <Plug>(coc-codeaction-selected)<CR>
+xmap <silent> <C-a> <Plug>(coc-codeaction-selected)<CR>
 nmap <silent> <Leader>pd :call CocActionAsync('doHover')<CR>
 
 nmap <silent> <Space>g <Plug>(coc-codelens-action)
@@ -320,6 +332,9 @@ EOF
 " Rustfmt autoformat on save a buffer
 let g:rustfmt_autosave = 1
 
+" Vim rainbows
+let g:rainbow_active = 1
+
 " Setup nvim-treesitter
 lua << EOF
 require("nvim-treesitter.configs").setup {
@@ -331,13 +346,7 @@ require("nvim-treesitter.configs").setup {
     additional_vim_regex_highlighting = true,
 
   },
-  indent = { enable = true, disable = { "yaml"} },
-  rainbow = {
-    enable = true,
-    disable = {},
-    extended_mode = true,
-    max_file_lines = nil,
-  }
+  indent = { enable = true, disable = { "yaml"} }
 }
 require('nvim-ts-autotag').setup()
 require('gitsigns').setup()

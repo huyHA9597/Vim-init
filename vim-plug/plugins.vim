@@ -25,6 +25,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Nvim treesitter
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'windwp/nvim-ts-autotag'
+    Plug 'luochen1990/rainbow'
 
     " HTML Snippet
     Plug 'adriaanzon/vim-emmet-ultisnips'
@@ -37,6 +38,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Plug indent line
     Plug 'lukas-reineke/indent-blankline.nvim'
 
+    " Highlight URL
+    Plug 'itchyny/vim-highlighturl'
+
     " Comment
     Plug 'preservim/nerdcommenter'
 
@@ -44,7 +48,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'for': ['html', 'css', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact']}
 
     " Auto completion
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
     Plug 'yaegassy/coc-graphql', {'do': 'yarn install --frozen-lockfile'}
 
     " Debug and test
@@ -60,7 +64,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Fuzzy Search + Ripgrep for search files
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
+    Plug 'junegunn/fzf.vim'
 
     " Git
     Plug 'tpope/vim-fugitive'
@@ -79,7 +83,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Colorscheme
     Plug 'sainnhe/edge'
-    Plug 'tomasiser/vim-code-dark'
     Plug 'joshdick/onedark.vim'
 
     " Statusline
